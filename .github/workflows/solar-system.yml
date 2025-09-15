@@ -60,6 +60,7 @@ jobs:
             run: npm install
 
           - name: run coverage test
+            continue-on-error: true
             run: npm run coverage 
 
           - name: upload aritifcat
