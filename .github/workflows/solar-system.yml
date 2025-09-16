@@ -31,11 +31,19 @@ jobs:
           uses: actions/setup-node@v3
           with:
             node-version: ${{matrix.nodejs_version}}
-    
+
+        - name: Caching the depencides for faster pipeline
+          uses: actions/cache@v4
+          with:
+            path: node_modules
+            key: ${{runner.os}}-NodeModules-${{hashFiles('package-lock.json')}}
+
+
         - name: Install Dependencies
           run: npm install
     
         - name: Unit Testing
+          id: nodejs-unit-testing-step
           run: npm test
           
         - name: Archive Test Result
@@ -55,6 +63,13 @@ jobs:
             uses: actions/setup-node@v3
             with:
               node-version: 18  
+
+          - name: Caching the depencides for faster pipeline
+            uses: actions/cache@v4
+            with:
+              path: node_modules
+              key: ${{runner.os}}-NodeModules-${{hashFiles('package-lock.json')}}
+
 
           - name: install Dependencies
             run: npm install
