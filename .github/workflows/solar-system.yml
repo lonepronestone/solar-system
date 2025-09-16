@@ -83,6 +83,7 @@ jobs:
               retention-days: 5
     docker_login:
       runs-on: ubuntu-latest
+      needs: [coverage_test,unit-testing]
       steps:
         - name: login into docker
           uses: docker/login-action@v3
