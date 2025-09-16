@@ -95,3 +95,31 @@ jobs:
           with:
             username: ${{vars.username}}
             password: ${{secrets.dockerpassword}}
+        
+        - name: build and push
+          uses: docker/build-push-action@v4
+          with:
+            context: .
+            push: false
+            tags: ${{vars.username}}/solar-system:${{github.sha}}
+
+
+
+        - name: building the image now.
+          run: |
+            docker images
+            docker run --name solar-app-system -d \
+            -p 3000:3000 \
+            -e MONGO_URI= 'mongodb+srv://supercluster.d83jj.mongodb.net/superData' \
+            -e MONGO_USERNAME: ${{vars.MANGO_USERNAME}} \
+            -e MONGO_PASSWORD: ${{secrets.MANGO_PASSWORD}} \
+            ${{vars.username}}/solar-system:${{github.sha}}
+
+            export IP =$(docker inspect -f '{{range .NetworkSettings}}{{.IPAddress}}{{end}}' solar-app-system)
+            echo $IP
+
+            echo testing image URL using wget
+            wget -q -O - 127.0.0.1:3000/live | grep live
+
+
+
