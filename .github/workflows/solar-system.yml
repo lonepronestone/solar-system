@@ -145,6 +145,10 @@ jobs:
             export IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' solar-app-system)
             echo $IP
 
+            echo "Waiting for app to start..."
+            sleep 5
+
+            
             echo testing image URL using wget
             wget -q -O - http://127.0.0.1:3000/live | grep live
 
