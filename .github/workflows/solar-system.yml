@@ -137,7 +137,7 @@ jobs:
             docker images
             docker run --name solar-app-system -d \
             -p 3000:3000 \
-            -e MONGO_URI='mongodb://localhost:27017/superData' \
+            -e MONGO_URL='mongodb://localhost:27017/superData' \
             -e MONGO_USERNAME=non-prod-user \
             -e MONGO_PASSWORD=non-prod-password \
             ${{vars.username}}/solar-system:${{github.sha}}
