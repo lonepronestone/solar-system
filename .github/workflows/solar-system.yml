@@ -7,14 +7,25 @@ on:
       - main
       - 'feature/*'
 
-env:
-  MONGO_URL: 'mongodb+srv://supercluster.d83jj.mongodb.net/superData'
-  MONGO_USERNAME: ${{vars.MANGO_USERNAME}}
-  MONGO_PASSWORD: ${{secrets.MANGO_PASSWORD}}
+# env:
+#   MONGO_URL: 'mongodb+srv://supercluster.d83jj.mongodb.net/superData'
+#   MONGO_USERNAME: ${{vars.MANGO_USERNAME}}
+#   MONGO_PASSWORD: ${{secrets.MANGO_PASSWORD}}
 
 jobs:
     unit-testing:
         name: Unit Testing
+        services:
+          mongo-db:
+            image: siddharth67/mongo-db:non-prod
+            ports: 
+              - 27017:27017
+
+        env:
+          MONGO_URL: 'mongodb://localhost:27017/superData'
+          MONGO_USERNAME: ${{vars.MANGO_USERNAME}}
+          MONGO_PASSWORD: ${{secrets.MANGO_PASSWORD}}
+
         strategy:
           matrix:
             nodejs_version: [18,20]
