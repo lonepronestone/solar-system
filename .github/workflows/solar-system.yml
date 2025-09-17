@@ -148,9 +148,13 @@ jobs:
             echo "Waiting for app to start..."
             sleep 5
 
-            
+            echo "Container logs:"
+            docker logs solar-app-system
+
             echo testing image URL using wget
             wget -q -O - http://127.0.0.1:3000/live | grep live
+
+   
 
         - name: Docker push as well as github container registry push.
           uses: docker/build-push-action@v4
