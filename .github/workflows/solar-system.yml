@@ -93,9 +93,6 @@ jobs:
               retention-days: 5
 
 
-
-
-
     Containerization:
       runs-on: ubuntu-latest
       services:
@@ -164,6 +161,54 @@ jobs:
             tags: |
               ${{vars.username}}/solar-system:${{github.sha}}
               ghcr.io/${{github.repository_owner}}/solar-system:${{github.sha}}
+
+    Deployment:
+      needs: docker
+      runs-on: ubuntu-latest
+      steps:
+        - name: installing kubectl cmd on runner
+          uses: azure/setup-kubectl@v3
+          with:
+            version: 'v1.26.0'
+
+
+
+        - name: get the k8 cluster details
+          run: |
+            kubectl version --short
+            echo -------------------------------------
+            kubectl get nodes
+
+
+    Installing_kubectl:
+      runs-on: ubuntu-latest
+      steps:
+
+
+        - name: getting all the files through Checkout
+          uses: actions/checkout@v4
+        - name: installing kubectl CLI on the runner
+          uses: azure/setup-kubectl@v4
+          with:
+            version: 'v1.26.0'
+
+        - name: Login into aws
+          uses: aws-actions/configure-aws-credentials@v2
+          with:
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-region: us-east-1
+
+        - name: Update kubeconfig
+          run: aws eks update-kubeconfig --region us-east-1 --name MoizNadeemCluster
+
+
+        - name: get cluster info  
+          run: |
+            echo -------------------------------------
+            kubectl get nodes
+            
+        
 
 
 
