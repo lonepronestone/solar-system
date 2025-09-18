@@ -172,19 +172,6 @@ jobs:
             version: 'v1.26.0'
 
 
-
-        - name: get the k8 cluster details
-          run: |
-            kubectl version --short
-            echo -------------------------------------
-            kubectl get nodes
-
-
-    Installing_kubectl:
-      runs-on: ubuntu-latest
-      steps:
-
-
         - name: getting all the files through Checkout
           uses: actions/checkout@v4
         - name: installing kubectl CLI on the runner
@@ -202,12 +189,14 @@ jobs:
         - name: Update kubeconfig
           run: aws eks update-kubeconfig --region us-east-1 --name MoizNadeemCluster
 
-
-        - name: get cluster info  
+        - name: get the k8 cluster details
           run: |
+            kubectl version --short
             echo -------------------------------------
             kubectl get nodes
-            
+
+
+
         
 
 
