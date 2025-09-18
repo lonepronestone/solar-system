@@ -163,7 +163,7 @@ jobs:
               ghcr.io/${{github.repository_owner}}/solar-system:${{github.sha}}
 
     Deployment:
-      needs: docker
+      needs: Containerization
       runs-on: ubuntu-latest
       steps:
         - name: installing kubectl cmd on runner
